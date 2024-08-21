@@ -2,9 +2,9 @@
 
 namespace App\Models\Shop;
 
-use App\Models\Order;
 use App\Models\Address;
 use App\Models\Comment;
+use App\Models\Shop\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;

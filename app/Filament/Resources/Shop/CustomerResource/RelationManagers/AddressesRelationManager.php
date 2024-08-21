@@ -6,10 +6,13 @@ use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Squire\Models\Country;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Squire\Models\Country as ModelsCountry;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
-use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
 
 class AddressesRelationManager extends RelationManager
 {
@@ -29,14 +32,16 @@ class AddressesRelationManager extends RelationManager
 
                 Forms\Components\TextInput::make('state'),
 
-                Country::make('country')
+                Select::make('country')
+                    ->searchable()
+                    ->getSearchResultsUsing(fn (string $query) => Country::where('name','like',"%{$query}%")->pluck('name','id'))
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('title')
+            // ->recordTitleAttribute('title')
             ->columns([
                 Tables\Columns\TextColumn::make('street'),
 
@@ -44,7 +49,10 @@ class AddressesRelationManager extends RelationManager
 
                 Tables\Columns\TextColumn::make('city'),
 
-                Tables\Columns\TextColumn::make('country')
+                // Tables\Columns\TextColumn::make('country')
+                    // ->formatStateUsing(fn ($state): ?string => Country::find($state)?->name ?? null),
+
+                TextColumn::make('country')
                     ->formatStateUsing(fn ($state): ?string => Country::find($state)?->name ?? null),
             ])
             ->filters([

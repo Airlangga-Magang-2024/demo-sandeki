@@ -7,10 +7,14 @@
     "require": {
         "php": "^8.2",
         "filament/filament": "^3.2",
+        "filament/forms": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
+        "flowframe/laravel-trend": "^0.2.0",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
-        "parfaitementweb/filament-country-field": "^2.1"
+        "parfaitementweb/filament-country-field": "^2.1",
+        "squirephp/countries-en": "^3.6",
+        "squirephp/currencies-en": "^3.6"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Shop;
 
 use App\Enums\OrderStatus;
 use App\Models\Shop\Customer;

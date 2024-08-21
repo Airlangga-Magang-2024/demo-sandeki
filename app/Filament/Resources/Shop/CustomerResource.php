@@ -19,12 +19,13 @@ use Filament\Forms\Components\Placeholder;
 use App\Filament\Resources\CustomerResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CustomerResource\RelationManagers;
-use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
+// use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
 use App\Filament\Resources\Shop\CustomerResource\Pages\EditCustomer;
 use App\Filament\Resources\Shop\CustomerResource\Pages\ListCustomers;
 use App\Filament\Resources\Shop\CustomerResource\Pages\CreateCustomer;
 use Parfaitementweb\FilamentCountryField\Tables\Columns\CountryColumn;
-use App\Filament\Clusters\Products\Resources\BrandResource\RelationManagers\AddressesRelationManager;
+use App\Filament\Resources\Shop\CustomerResource\RelationManagers\AddressesRelationManager;
+use Squire\Models\Country;
 
 class CustomerResource extends Resource
 {
@@ -32,13 +33,15 @@ class CustomerResource extends Resource
 
     protected static ?string $slug = 'shop/customers';
 
-    protected static ?string $recordTitleAttribute = 'name';
-
     protected static ?string $navigationGroup = 'Shop';
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     protected static ?int $navigationSort = 2;
+
+    protected static string $relationship = 'addresses';
+
+    protected static ?string $recordTitleAttribute = 'full_address';
 
 
     public static function form(Form $form): Form
@@ -93,12 +96,17 @@ class CustomerResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email address')
-                    ->searchable(isIndividual: true, isGlobal: false)
+                    // ->searchable(isIndividual: true, isGlobal: false)
                     ->sortable(),
-                Tables\Columns\TextColumn::make('country'),
-                // CountryColumn::make('country'),
-                // ->getStateUsing(fn ($record): ?string => Address::find($record->addresses->first()?->country)?->name ?? null),
+                // Tables\Columns\TextColumn::make('country'),
+                // CountryColumn::make('country')
+                // ->getStateUsing(f/n ($record): ?string => Address::find($record->addresses->first()?->country)?->name ?? null),
+                // ->formatStateUsing(fn ($state): ?string => Country::find($state)?->name ?? null),
+                
+
                 // TextColumn::make('country'),
+                TextColumn::make('country')
+                    ->getStateUsing(fn ($record): ?string =>Country::find($record->addresses->first()?->country)?->name ?? null),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable()
                     ->sortable(),
@@ -111,9 +119,6 @@ class CustomerResource extends Resource
             ])
             ->groupedBulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ])
-            ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

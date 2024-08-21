@@ -3,14 +3,11 @@
 namespace App\Filament\Clusters\Products\Resources\BrandResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Tables;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Forms\Components\Select;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
-use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Squire\Models\Country;
 
 class AddressesRelationManager extends RelationManager
 {
@@ -23,46 +20,48 @@ class AddressesRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('street'),
+
                 Forms\Components\TextInput::make('zip'),
+
                 Forms\Components\TextInput::make('city'),
+
                 Forms\Components\TextInput::make('state'),
 
-                Country::make('country')
-->exclude(['NL'])
-->add(['MA' =>'Mars'])
-->map(['GB' => 'UK', 'GF' => 'FR'])
-
+                Forms\Components\Select::make('country')
+                    ->searchable()
+                    ->getSearchResultsUsing(fn (string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
+                    ->getOptionLabelUsing(fn ($value): ?string => Country::firstWhere('id', $value)?->getAttribute('name')),
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            // ->recordTitleAttribute('full_address')
             ->columns([
                 Tables\Columns\TextColumn::make('street'),
+
                 Tables\Columns\TextColumn::make('zip'),
+
                 Tables\Columns\TextColumn::make('city'),
+
                 Tables\Columns\TextColumn::make('country')
-                // ->formatStateUsing(fn ($state): ?string => Country::find($state)?->name ?? null),
+                    ->formatStateUsing(fn ($state): ?string => Country::find($state)?->name ?? null),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
                 Tables\Actions\AttachAction::make(),
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DetachAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\DetachBulkAction::make(),
-                ]),
+            ->groupedBulkActions([
+                Tables\Actions\DetachBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 }

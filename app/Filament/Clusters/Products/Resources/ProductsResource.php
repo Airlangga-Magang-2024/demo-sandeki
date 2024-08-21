@@ -167,8 +167,8 @@ class ProductsResource extends Resource
 
                                 Forms\Components\Select::make('categories')
                                     ->relationship('categories', 'name')
-                                    ->multiple()
-                                    ->required(),
+                                    ->multiple(),
+                                    // ->required(),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),

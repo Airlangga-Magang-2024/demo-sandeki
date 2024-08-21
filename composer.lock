@@ -4,8 +4,77 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b0ae4f8762d3c1ca8bdd09260eac084",
+    "content-hash": "b1f741847a8c527a6d03d7d45d092c96",
     "packages": [
+        {
+            "name": "akaunting/laravel-money",
+            "version": "5.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/akaunting/laravel-money.git",
+                "reference": "6cc8abb912286c671de5993ffbcd3225588aeace"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/akaunting/laravel-money/zipball/6cc8abb912286c671de5993ffbcd3225588aeace",
+                "reference": "6cc8abb912286c671de5993ffbcd3225588aeace",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^9.0|^10.0|^11.0",
+                "illuminate/support": "^9.0|^10.0|^11.0",
+                "illuminate/validation": "^9.0|^10.0|^11.0",
+                "illuminate/view": "^9.0|^10.0|^11.0",
+                "php": "^8.0",
+                "vlucas/phpdotenv": "^5.4.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^7.4|^8.0|^9.0",
+                "phpunit/phpunit": "^9.5|^10.0|^11.0",
+                "vimeo/psalm": "^4.23|^5.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Akaunting\\Money\\Provider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Akaunting\\Money\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Denis Duliçi",
+                    "email": "info@akaunting.com",
+                    "homepage": "https://akaunting.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Currency formatting and conversion package for Laravel",
+            "keywords": [
+                "convert",
+                "currency",
+                "format",
+                "laravel",
+                "money"
+            ],
+            "support": {
+                "issues": "https://github.com/akaunting/laravel-money/issues",
+                "source": "https://github.com/akaunting/laravel-money/tree/5.2.1"
+            },
+            "time": "2024-07-23T15:01:26+00:00"
+        },
         {
             "name": "anourvalar/eloquent-serialize",
             "version": "1.2.23",
@@ -143,16 +212,16 @@
         },
         {
             "name": "blade-ui-kit/blade-icons",
-            "version": "1.7.0",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blade-ui-kit/blade-icons.git",
-                "reference": "74275f44c71e815b85bf7cea66e3bf98c57fb7e4"
+                "reference": "8f787baf09d88cdfd6ec4dbaba11ebfa885f0595"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blade-ui-kit/blade-icons/zipball/74275f44c71e815b85bf7cea66e3bf98c57fb7e4",
-                "reference": "74275f44c71e815b85bf7cea66e3bf98c57fb7e4",
+                "url": "https://api.github.com/repos/blade-ui-kit/blade-icons/zipball/8f787baf09d88cdfd6ec4dbaba11ebfa885f0595",
+                "reference": "8f787baf09d88cdfd6ec4dbaba11ebfa885f0595",
                 "shasum": ""
             },
             "require": {
@@ -220,7 +289,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2024-07-29T21:49:30+00:00"
+            "time": "2024-08-14T14:25:11+00:00"
         },
         {
             "name": "brick/math",
@@ -614,16 +683,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "4.0.5",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "389230389ed2d73a5fbf9a07d2bc0f8d0d56070e"
+                "reference": "2377cd41609aa51bee822c8d207317a3f363a558"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/389230389ed2d73a5fbf9a07d2bc0f8d0d56070e",
-                "reference": "389230389ed2d73a5fbf9a07d2bc0f8d0d56070e",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/2377cd41609aa51bee822c8d207317a3f363a558",
+                "reference": "2377cd41609aa51bee822c8d207317a3f363a558",
                 "shasum": ""
             },
             "require": {
@@ -702,7 +771,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/4.0.5"
+                "source": "https://github.com/doctrine/dbal/tree/4.1.0"
             },
             "funding": [
                 {
@@ -718,7 +787,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-08-07T12:53:48+00:00"
+            "time": "2024-08-15T07:37:07+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1531,6 +1600,80 @@
                 "source": "https://github.com/filamentphp/filament"
             },
             "time": "2024-07-31T11:53:30+00:00"
+        },
+        {
+            "name": "flowframe/laravel-trend",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Flowframe/laravel-trend.git",
+                "reference": "bae1232325a59a7c9e99a372c80afab82309503b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Flowframe/laravel-trend/zipball/bae1232325a59a7c9e99a372c80afab82309503b",
+                "reference": "bae1232325a59a7c9e99a372c80afab82309503b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.37|^9|^10.0|^11.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.4.3"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^5.3|^6.1|^8.0",
+                "orchestra/testbench": "^6.15|^7.0|^8.0|^9.0",
+                "pestphp/pest": "^1.18|^2.34",
+                "pestphp/pest-plugin-laravel": "^1.1|^2.3",
+                "spatie/laravel-ray": "^1.23",
+                "vimeo/psalm": "^4.8|^5.6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Flowframe\\Trend\\TrendServiceProvider"
+                    ],
+                    "aliases": {
+                        "Trend": "Flowframe\\Trend\\TrendFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Flowframe\\Trend\\": "src",
+                    "Flowframe\\Trend\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lars Klopstra",
+                    "email": "lars@flowframe.nl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easily generate model trends",
+            "homepage": "https://github.com/flowframe/laravel-trend",
+            "keywords": [
+                "Flowframe",
+                "laravel",
+                "laravel-trend"
+            ],
+            "support": {
+                "issues": "https://github.com/Flowframe/laravel-trend/issues",
+                "source": "https://github.com/Flowframe/laravel-trend/tree/v0.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/larsklopstra",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-03-14T13:45:40+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -2531,16 +2674,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.5.1",
+            "version": "2.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "ac815920de0eff6de947eac0a6a94e5ed0fb147c"
+                "reference": "b650144166dfa7703e62a22e493b853b58d874b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/ac815920de0eff6de947eac0a6a94e5ed0fb147c",
-                "reference": "ac815920de0eff6de947eac0a6a94e5ed0fb147c",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/b650144166dfa7703e62a22e493b853b58d874b0",
+                "reference": "b650144166dfa7703e62a22e493b853b58d874b0",
                 "shasum": ""
             },
             "require": {
@@ -2553,8 +2696,8 @@
             },
             "require-dev": {
                 "cebe/markdown": "^1.0",
-                "commonmark/cmark": "0.31.0",
-                "commonmark/commonmark.js": "0.31.0",
+                "commonmark/cmark": "0.31.1",
+                "commonmark/commonmark.js": "0.31.1",
                 "composer/package-versions-deprecated": "^1.8",
                 "embed/embed": "^4.4",
                 "erusev/parsedown": "^1.0",
@@ -2633,7 +2776,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-07-24T12:52:09+00:00"
+            "time": "2024-08-16T11:46:16+00:00"
         },
         {
             "name": "league/config",
@@ -3169,16 +3312,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v3.5.4",
+            "version": "v3.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "b158c6386a892efc6c5e4682e682829baac1f933"
+                "reference": "597a2808d8d3001cc3ed5ce89a6ebab00f83b80f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/b158c6386a892efc6c5e4682e682829baac1f933",
-                "reference": "b158c6386a892efc6c5e4682e682829baac1f933",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/597a2808d8d3001cc3ed5ce89a6ebab00f83b80f",
+                "reference": "597a2808d8d3001cc3ed5ce89a6ebab00f83b80f",
                 "shasum": ""
             },
             "require": {
@@ -3186,6 +3329,7 @@
                 "illuminate/routing": "^10.0|^11.0",
                 "illuminate/support": "^10.0|^11.0",
                 "illuminate/validation": "^10.0|^11.0",
+                "laravel/prompts": "^0.1.24",
                 "league/mime-type-detection": "^1.9",
                 "php": "^8.1",
                 "symfony/console": "^6.0|^7.0",
@@ -3194,7 +3338,6 @@
             "require-dev": {
                 "calebporzio/sushi": "^2.1",
                 "laravel/framework": "^10.15.0|^11.0",
-                "laravel/prompts": "^0.1.6",
                 "mockery/mockery": "^1.3.1",
                 "orchestra/testbench": "^8.21.0|^9.0",
                 "orchestra/testbench-dusk": "^8.24|^9.1",
@@ -3233,7 +3376,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v3.5.4"
+                "source": "https://github.com/livewire/livewire/tree/v3.5.6"
             },
             "funding": [
                 {
@@ -3241,7 +3384,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-15T18:27:32+00:00"
+            "time": "2024-08-19T11:52:18+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -3494,16 +3637,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "3.7.0",
+            "version": "3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "cb4374784c87d0a0294e8513a52eb63c0aff3139"
+                "reference": "bbd3eef89af8ba66a3aa7952b5439168fbcc529f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/cb4374784c87d0a0294e8513a52eb63c0aff3139",
-                "reference": "cb4374784c87d0a0294e8513a52eb63c0aff3139",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/bbd3eef89af8ba66a3aa7952b5439168fbcc529f",
+                "reference": "bbd3eef89af8ba66a3aa7952b5439168fbcc529f",
                 "shasum": ""
             },
             "require": {
@@ -3596,7 +3739,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-07-16T22:29:20+00:00"
+            "time": "2024-08-19T06:22:39+00:00"
         },
         {
             "name": "nette/schema",
@@ -5455,6 +5598,379 @@
                 }
             ],
             "time": "2023-12-25T11:46:58+00:00"
+        },
+        {
+            "name": "squirephp/countries",
+            "version": "v3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squirephp/countries.git",
+                "reference": "28a90223a0fc509f8cfe2aa1e9d06c7d767fd461"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squirephp/countries/zipball/28a90223a0fc509f8cfe2aa1e9d06c7d767fd461",
+                "reference": "28a90223a0fc509f8cfe2aa1e9d06c7d767fd461",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^8.0",
+                "squirephp/model": "self.version",
+                "squirephp/rule": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Squire\\CountriesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Squire\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Harrin",
+                    "email": "dan@danharrin.com"
+                }
+            ],
+            "description": "A library containing Squire's Country model.",
+            "homepage": "https://github.com/squirephp",
+            "keywords": [
+                "squire"
+            ],
+            "support": {
+                "issues": "https://github.com/squirephp/squire/issues",
+                "source": "https://github.com/squirephp/squire"
+            },
+            "time": "2024-03-11T11:06:01+00:00"
+        },
+        {
+            "name": "squirephp/countries-en",
+            "version": "v3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squirephp/countries-en.git",
+                "reference": "a21ab5c06549e0ba5dca92da04f69d03bfc414a6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squirephp/countries-en/zipball/a21ab5c06549e0ba5dca92da04f69d03bfc414a6",
+                "reference": "a21ab5c06549e0ba5dca92da04f69d03bfc414a6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^8.0",
+                "squirephp/countries": "self.version",
+                "squirephp/repository": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Squire\\CountriesEnServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Squire\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Harrin",
+                    "email": "dan@danharrin.com"
+                }
+            ],
+            "description": "A library containing the English translation of Squire's Country model.",
+            "homepage": "https://github.com/squirephp",
+            "keywords": [
+                "squire"
+            ],
+            "support": {
+                "issues": "https://github.com/squirephp/squire/issues",
+                "source": "https://github.com/squirephp/squire"
+            },
+            "time": "2024-03-11T11:06:03+00:00"
+        },
+        {
+            "name": "squirephp/currencies",
+            "version": "v3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squirephp/currencies.git",
+                "reference": "ce2384d20a2bcd2e44630b4d9d2fdfa4e1267259"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squirephp/currencies/zipball/ce2384d20a2bcd2e44630b4d9d2fdfa4e1267259",
+                "reference": "ce2384d20a2bcd2e44630b4d9d2fdfa4e1267259",
+                "shasum": ""
+            },
+            "require": {
+                "akaunting/laravel-money": "^1.2|^2.1|^3.0|^4.0|^5.1",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^8.0",
+                "squirephp/model": "self.version",
+                "squirephp/rule": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Squire\\CurrenciesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Squire\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Harrin",
+                    "email": "dan@danharrin.com"
+                }
+            ],
+            "description": "A library containing Squire's Currency model.",
+            "homepage": "https://github.com/squirephp",
+            "keywords": [
+                "squire"
+            ],
+            "support": {
+                "issues": "https://github.com/squirephp/squire/issues",
+                "source": "https://github.com/squirephp/squire"
+            },
+            "time": "2024-03-11T11:06:01+00:00"
+        },
+        {
+            "name": "squirephp/currencies-en",
+            "version": "v3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squirephp/currencies-en.git",
+                "reference": "8dca3fe4bac1668303245cbf5e99958bcf1a1a53"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squirephp/currencies-en/zipball/8dca3fe4bac1668303245cbf5e99958bcf1a1a53",
+                "reference": "8dca3fe4bac1668303245cbf5e99958bcf1a1a53",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^8.0",
+                "squirephp/currencies": "self.version",
+                "squirephp/repository": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Squire\\CurrenciesEnServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Squire\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Harrin",
+                    "email": "dan@danharrin.com"
+                }
+            ],
+            "description": "A library containing the English translation of Squire's Currency model.",
+            "homepage": "https://github.com/squirephp",
+            "keywords": [
+                "squire"
+            ],
+            "support": {
+                "issues": "https://github.com/squirephp/squire/issues",
+                "source": "https://github.com/squirephp/squire"
+            },
+            "time": "2024-03-11T11:06:03+00:00"
+        },
+        {
+            "name": "squirephp/model",
+            "version": "v3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squirephp/model.git",
+                "reference": "9faa567a39c3ceb31db79c5bec81a5ee89a233ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squirephp/model/zipball/9faa567a39c3ceb31db79c5bec81a5ee89a233ce",
+                "reference": "9faa567a39c3ceb31db79c5bec81a5ee89a233ce",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo_sqlite": "*",
+                "illuminate/database": "^8.40|^9.0|^10.0|^11.0",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Squire\\ModelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Squire\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Harrin",
+                    "email": "dan@danharrin.com"
+                }
+            ],
+            "description": "A library containing the base Squire model class.",
+            "homepage": "https://github.com/squirephp",
+            "keywords": [
+                "squire"
+            ],
+            "support": {
+                "issues": "https://github.com/squirephp/squire/issues",
+                "source": "https://github.com/squirephp/squire"
+            },
+            "time": "2024-03-11T11:06:10+00:00"
+        },
+        {
+            "name": "squirephp/repository",
+            "version": "v3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squirephp/repository.git",
+                "reference": "c7cf78011f32904905638f4689975cbbbc78501c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squirephp/repository/zipball/c7cf78011f32904905638f4689975cbbbc78501c",
+                "reference": "c7cf78011f32904905638f4689975cbbbc78501c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Squire\\RepositoryServiceProvider"
+                    ],
+                    "aliases": {
+                        "RepositoryManager": "Squire\\Repository\\Facades\\Repository"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Squire\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Harrin",
+                    "email": "dan@danharrin.com"
+                }
+            ],
+            "description": "A library containing the Squire repository.",
+            "homepage": "https://github.com/squirephp",
+            "keywords": [
+                "squire"
+            ],
+            "support": {
+                "issues": "https://github.com/squirephp/squire/issues",
+                "source": "https://github.com/squirephp/squire"
+            },
+            "time": "2024-03-11T11:06:10+00:00"
+        },
+        {
+            "name": "squirephp/rule",
+            "version": "v3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squirephp/rule.git",
+                "reference": "cca1bfe4bf06ab7691177f7c277d386eee7ac61c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squirephp/rule/zipball/cca1bfe4bf06ab7691177f7c277d386eee7ac61c",
+                "reference": "cca1bfe4bf06ab7691177f7c277d386eee7ac61c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.0|^9.0|^10.0|^11.0",
+                "illuminate/database": "^8.40|^9.0|^10.0|^11.0",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Squire\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Harrin",
+                    "email": "dan@danharrin.com"
+                }
+            ],
+            "description": "A library containing the base Squire rule class.",
+            "homepage": "https://github.com/squirephp",
+            "keywords": [
+                "squire"
+            ],
+            "support": {
+                "issues": "https://github.com/squirephp/squire/issues",
+                "source": "https://github.com/squirephp/squire"
+            },
+            "time": "2024-03-11T11:06:11+00:00"
         },
         {
             "name": "symfony/clock",
