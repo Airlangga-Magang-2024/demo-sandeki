@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Shop;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Product;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
 use App\Enums\OrderStatus;
@@ -13,6 +14,7 @@ use Filament\Tables\Table;
 use Squire\Models\Currency;
 use Illuminate\Support\Carbon;
 use Filament\Resources\Resource;
+use App\Filament\Clusters\Products;
 use Filament\Forms\Components\Group;
 use App\Forms\Components\AddressForm;
 use Filament\Forms\Components\Select;
@@ -23,6 +25,7 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\ToggleButtons;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\MarkdownEditor;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -30,6 +33,7 @@ use App\Filament\Resources\Shop\OrderResource\Pages;
 use App\Filament\Clusters\Products\Resources\ProductsResource;
 use App\Filament\Resources\Shop\OrderResource\RelationManagers;
 use App\Filament\Resources\Shop\OrderResource\Widgets\OrderStats;
+use App\Filament\Resources\Shop\OrderResource\RelationManagers\PaymentsRelationManager;
 
 class OrderResource extends Resource
 {
@@ -108,7 +112,7 @@ class OrderResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->summarize([
-                        Tables\Columns\Summarizers\Sum::make()
+                        Sum::make()
                             ->money(),
                     ]),
                 Tables\Columns\TextColumn::make('shipping_price')
@@ -117,7 +121,7 @@ class OrderResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->summarize([
-                        Tables\Columns\Summarizers\Sum::make()
+                        Sum::make()
                             ->money(),
                     ]),
                 Tables\Columns\TextColumn::make('created_at')
@@ -177,7 +181,7 @@ class OrderResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PaymentsRelationManager::class,
         ];
     }
 
@@ -290,6 +294,16 @@ class OrderResource extends Resource
                     ->required()
                     ->reactive()
                     ->afterStateUpdated(fn ($state, Set $set) => $set('unit_price', Product::find($state)?->price ?? 0))
+                    // ->afterStateUpdated(function ($state, Set $set, $get){
+                    //     $product = Product::find($state);
+                    //     $qty = $get('qty') ?? 1;
+                    //     $set('unit_price', $product?->price ?? 0);
+                    //     $set('total_price', $product?->price * $qty);
+                    // })
+                    // ->afterStateHydrated(function ($state , Set $set, $get) {
+                    //     $unitPrice = $get('unit_price');
+                    //     $set('total_price', $unitPrice * $state);
+                    // })
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([
@@ -301,6 +315,26 @@ class OrderResource extends Resource
                     ->label('Quantity')
                     ->numeric()
                     ->default(1)
+                    ->reactive()
+                    // ->afterStateUpdated(fn($state, Set $set) => $set ('total_price', $set('unit_price') * $state))
+                    // ->afterStateUpdated(function ($state , Set $set, $get){
+                    //     $unitPrice = $get('unit_price');
+                        
+                    //     if ($unitPrice !== null) {
+                    //         $set('total_price', $unitPrice * $state); // Menyet nilai 'total_price' jika 'unit_price' valid
+                    //     }
+                    // })
+
+                    // ->afterStateUpdated(function ($state, Set $set, $get) {
+                    //     $productId = $get('shop_product_id');
+                    //     $unitPrice = Product::find($productId)?->price ?? 0;
+                    //     $set('total_price', $unitPrice * $state);
+                    // })
+                    // ->afterStateHydrated(function ($state, Set $set, $get) {
+                    //     $productId = $get('shop_product_id');
+                    //     $unitPrice = Product::find($productId)?->price ?? 0;
+                    //     $set('total_price', $unitPrice * $state);
+                    // })
                     ->columnSpan([
                         'md' => 2,
                     ]),
@@ -315,21 +349,28 @@ class OrderResource extends Resource
                         'md' => 3,
                     ]),
             ])
+            ->live()
+            ->afterStateUpdated(function (Get $get, Set $set){
+                self::updateTotals($get, $set);
+            })
+            ->deleteAction(
+                fn(Action $action) => $action->after(fn(Get $get, Set $set) => self::updateTotals($get, $set)),
+            )
             ->extraItemActions([
                 Action::make('openProduct')
-                    ->tooltip('Open Product')
+                    ->tooltip('Open product')
                     ->icon('heroicon-m-arrow-top-right-on-square')
-                    ->url(function (array $arguments, Repeater $component): ?string{
+                    ->url(function (array $arguments, Repeater $component): ?string {
                         $itemData = $component->getRawItemState($arguments['item']);
 
                         $product = Product::find($itemData['shop_product_id']);
 
-                        if (! $product){
+                        if (! $product) {
                             return null;
                         }
 
                         return ProductsResource::getUrl('edit', ['record' => $product]);
-                    }, shouldOpenInNewTab:true)
+                    }, shouldOpenInNewTab: true)
                     ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['shop_product_id'])),
             ])
             ->orderColumn('sort')
@@ -339,6 +380,18 @@ class OrderResource extends Resource
                 'md' => 10,
             ])
             ->required();
+    }
+
+    public static function updateTotals(Get $get, Set $set): void {
+        $selectedProducts = collect($get('invoiceProducts'))->filter(fn($item) => !empty($item['shop_product_id']) && !empty($item['quantity']));
+
+        $prices = Product::find($selectedProducts->pluck('shop_product_id'))->pluck('price', 'id');
+
+        $total_price = $selectedProducts->reduce(function ($total_price, $product) use($prices){
+            return $total_price + ($prices[$product['shop_product_id']] * $product['quantity']);
+        }, 0);
+
+        // $set ('total_price', number_format($total_price, 2 , '.', ''));
     }
 
     public static function getPages(): array

@@ -6,8 +6,14 @@ use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use Akaunting\Money\Currency;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ColumnGroup;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\ToggleButtons;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
 
@@ -21,21 +27,21 @@ class PaymentsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('reference')
+               TextInput::make('reference')
                     ->columnSpan('full')
                     ->required(),
 
-                Forms\Components\TextInput::make('amount')
+               TextInput::make('amount')
                     ->numeric()
                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                     ->required(),
 
-                Forms\Components\Select::make('currency')
+               Select::make('currency')
                     ->options(collect(Currency::getCurrencies())->mapWithKeys(fn ($item, $key) => [$key => data_get($item, 'name')]))
                     ->searchable()
                     ->required(),
 
-                Forms\Components\ToggleButtons::make('provider')
+               ToggleButtons::make('provider')
                     ->inline()
                     ->grouped()
                     ->options([
@@ -44,7 +50,7 @@ class PaymentsRelationManager extends RelationManager
                     ])
                     ->required(),
 
-                Forms\Components\ToggleButtons::make('method')
+               ToggleButtons::make('method')
                     ->inline()
                     ->options([
                         'credit_card' => 'Credit card',
@@ -59,7 +65,26 @@ class PaymentsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                
+                ColumnGroup::make('Details')
+                    ->columns([
+                        TextColumn::make('reference')
+                            ->searchable(),
+
+                        TextColumn::make('amount')
+                            ->sortable()
+                            ->money(fn ($record) => $record->currency),
+                    ]),
+
+                ColumnGroup::make('Context')
+                    ->columns([
+                        TextColumn::make('provider')
+                            ->formatStateUsing(fn ($state) => Str::headline($state))
+                            ->sortable(),
+
+                        TextColumn::make('method')
+                            ->formatStateUsing(fn ($state) => Str::headline($state))
+                            ->sortable(),
+                    ]),
             ])
             ->filters([
                 //

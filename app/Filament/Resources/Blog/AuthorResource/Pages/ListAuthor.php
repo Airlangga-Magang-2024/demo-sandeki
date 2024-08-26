@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Filament\Clusters\Products\Resources\BrandResource\Pages;
+namespace App\Filament\Resources\Blog\AuthorCategory\Pages;
 
 use Filament\Actions;
 use pxlrbt\FilamentExcel\Columns\Column;
 use Filament\Resources\Pages\ListRecords;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
+use App\Filament\Resources\Blog\AuthorResource;
+use App\Filament\Resources\Blog\CategoryResource;
 use pxlrbt\FilamentExcel\Actions\Pages\ExportAction;
-use App\Filament\Clusters\Products\Resources\BrandResource;
 
-class ListBrands extends ListRecords
+class ListAuthor extends ListRecords
 {
-    protected static string $resource = BrandResource::class;
+    protected static string $resource = AuthorResource::class;
 
     protected function getHeaderActions(): array
     {

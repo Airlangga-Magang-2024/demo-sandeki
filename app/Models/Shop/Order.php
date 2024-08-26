@@ -31,6 +31,21 @@ class Order extends Model
         'notes',
     ];
 
+    protected static function booted(){
+        static::saving(function ($order){
+            $order->total_price = $order->calcTotalPrice();
+            $order->shipping_price = $order->calcShipPrice();
+        });
+    }
+
+    public function calcTotalPrice(){
+        return $this->items->sum(fn ($state) => $state->unit_price * $state->qty);
+    }
+
+    public function calcShipPrice(){
+        return 10000;
+    }
+
     protected $casts = [
         'status' => OrderStatus::class,
     ];

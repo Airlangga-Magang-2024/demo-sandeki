@@ -20,7 +20,8 @@ class Category extends Model implements HasMedia
     protected $fillable = [
         'name',
         'slug',
-        'description'
+        'description',
+        'is_visible'
     ];
 
     protected $casts = [
