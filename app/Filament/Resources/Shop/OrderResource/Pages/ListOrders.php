@@ -10,7 +10,6 @@ use Filament\Pages\Concerns\ExposesTableToWidgets;
 
 class ListOrders extends ListRecords
 {
-
     use ExposesTableToWidgets;
 
     protected static string $resource = OrderResource::class;
@@ -22,10 +21,10 @@ class ListOrders extends ListRecords
         ];
     }
 
-    // protected function getHeaderWidgets(): array
-    // {
-    //     return OrderResource::getWidgets();
-    // }
+    protected function getHeaderWidgets(): array
+    {
+        return OrderResource::getWidgets();
+    }
 
     public function getTabs(): array{
         return [

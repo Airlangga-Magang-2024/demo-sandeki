@@ -32,8 +32,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\Shop\OrderResource\Pages;
 use App\Filament\Clusters\Products\Resources\ProductsResource;
 use App\Filament\Resources\Shop\OrderResource\RelationManagers;
-use App\Filament\Resources\Shop\OrderResource\Widgets\OrderStats;
 use App\Filament\Resources\Shop\OrderResource\RelationManagers\PaymentsRelationManager;
+use App\Filament\Resources\Shop\OrderResource\Widgets\OrderStats;
 
 class OrderResource extends Resource
 {
@@ -111,18 +111,22 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('total_price')
                     ->searchable()
                     ->sortable()
+                    // ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
                     ->summarize([
-                        Sum::make()
-                            ->money(),
+                        Tables\Columns\Summarizers\Sum::make()
+                        // ->format(fn($value) => number_format($value, 2, ',', '.')),
                     ]),
+
                 Tables\Columns\TextColumn::make('shipping_price')
-                    ->label('Shipping cost')
+                    ->label('Shipping Cost')
                     ->searchable()
                     ->sortable()
                     ->toggleable()
+                    // ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
                     ->summarize([
-                        Sum::make()
-                            ->money(),
+                        Tables\Columns\Summarizers\Sum::make('total_price')
+                            ->money('IDR')
+                        // ->format(fn($value) => number_format($value, 2, ',', '.')),
                     ]),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Order Date')
@@ -286,100 +290,64 @@ class OrderResource extends Resource
 
     public static function getItemsRepeater(): Repeater{
         return Repeater::make('items')
-            ->relationship()
-            ->schema([
-                Select::make('shop_product_id')
-                    ->label('Product')
-                    ->options(Product::query()->pluck('name','id'))
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(fn ($state, Set $set) => $set('unit_price', Product::find($state)?->price ?? 0))
-                    // ->afterStateUpdated(function ($state, Set $set, $get){
-                    //     $product = Product::find($state);
-                    //     $qty = $get('qty') ?? 1;
-                    //     $set('unit_price', $product?->price ?? 0);
-                    //     $set('total_price', $product?->price * $qty);
-                    // })
-                    // ->afterStateHydrated(function ($state , Set $set, $get) {
-                    //     $unitPrice = $get('unit_price');
-                    //     $set('total_price', $unitPrice * $state);
-                    // })
-                    ->distinct()
-                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                    ->columnSpan([
-                        'md' => 5,
-                    ])
-                    ->searchable(),
+        ->relationship()
+        ->schema([
+            Forms\Components\Select::make('shop_product_id')
+                ->label('Product')
+                ->options(Product::query()->pluck('name', 'id'))
+                ->required()
+                ->reactive()
+                ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', Product::find($state)?->price ?? 0))
+                ->distinct()
+                ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                ->columnSpan([
+                    'md' => 5,
+                ])
+                ->searchable(),
 
-                TextInput::make('qty')
-                    ->label('Quantity')
-                    ->numeric()
-                    ->default(1)
-                    ->reactive()
-                    // ->afterStateUpdated(fn($state, Set $set) => $set ('total_price', $set('unit_price') * $state))
-                    // ->afterStateUpdated(function ($state , Set $set, $get){
-                    //     $unitPrice = $get('unit_price');
-                        
-                    //     if ($unitPrice !== null) {
-                    //         $set('total_price', $unitPrice * $state); // Menyet nilai 'total_price' jika 'unit_price' valid
-                    //     }
-                    // })
+            Forms\Components\TextInput::make('qty')
+                ->label('Quantity')
+                ->numeric()
+                ->default(1)
+                ->columnSpan([
+                    'md' => 2,
+                ])
+                ->required(),
 
-                    // ->afterStateUpdated(function ($state, Set $set, $get) {
-                    //     $productId = $get('shop_product_id');
-                    //     $unitPrice = Product::find($productId)?->price ?? 0;
-                    //     $set('total_price', $unitPrice * $state);
-                    // })
-                    // ->afterStateHydrated(function ($state, Set $set, $get) {
-                    //     $productId = $get('shop_product_id');
-                    //     $unitPrice = Product::find($productId)?->price ?? 0;
-                    //     $set('total_price', $unitPrice * $state);
-                    // })
-                    ->columnSpan([
-                        'md' => 2,
-                    ]),
-                
-                TextInput::make('unit_price')
-                    ->label('Unit Price')
-                    ->disabled()
-                    ->dehydrated()
-                    ->numeric()
-                    ->required()
-                    ->columnSpan([
-                        'md' => 3,
-                    ]),
-            ])
-            ->live()
-            ->afterStateUpdated(function (Get $get, Set $set){
-                self::updateTotals($get, $set);
-            })
-            ->deleteAction(
-                fn(Action $action) => $action->after(fn(Get $get, Set $set) => self::updateTotals($get, $set)),
-            )
-            ->extraItemActions([
-                Action::make('openProduct')
-                    ->tooltip('Open product')
-                    ->icon('heroicon-m-arrow-top-right-on-square')
-                    ->url(function (array $arguments, Repeater $component): ?string {
-                        $itemData = $component->getRawItemState($arguments['item']);
+            Forms\Components\TextInput::make('unit_price')
+                ->label('Unit Price')
+                ->disabled()
+                ->dehydrated()
+                ->numeric()
+                ->required()
+                ->columnSpan([
+                    'md' => 3,
+                ]),
+        ])
+        ->extraItemActions([
+            Action::make('openProduct')
+                ->tooltip('Open product')
+                ->icon('heroicon-m-arrow-top-right-on-square')
+                ->url(function (array $arguments, Repeater $component): ?string {
+                    $itemData = $component->getRawItemState($arguments['item']);
 
-                        $product = Product::find($itemData['shop_product_id']);
+                    $product = Product::find($itemData['shop_product_id']);
 
-                        if (! $product) {
-                            return null;
-                        }
+                    if (! $product) {
+                        return null;
+                    }
 
-                        return ProductsResource::getUrl('edit', ['record' => $product]);
-                    }, shouldOpenInNewTab: true)
-                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['shop_product_id'])),
-            ])
-            ->orderColumn('sort')
-            ->defaultItems(1)
-            ->hiddenLabel()
-            ->columns([
-                'md' => 10,
-            ])
-            ->required();
+                    return ProductsResource::getUrl('edit', ['record' => $product]);
+                }, shouldOpenInNewTab: true)
+                ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['shop_product_id'])),
+        ])
+        ->orderColumn('sort')
+        ->defaultItems(1)
+        ->hiddenLabel()
+        ->columns([
+            'md' => 10,
+        ])
+        ->required();
     }
 
     public static function updateTotals(Get $get, Set $set): void {

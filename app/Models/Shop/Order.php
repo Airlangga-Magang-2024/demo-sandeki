@@ -31,20 +31,49 @@ class Order extends Model
         'notes',
     ];
 
-    protected static function booted(){
-        static::saving(function ($order){
+    protected static function booted()
+    {
+        static::saving(function (Order $order) {
             $order->total_price = $order->calcTotalPrice();
             $order->shipping_price = $order->calcShipPrice();
         });
     }
 
-    public function calcTotalPrice(){
-        return $this->items->sum(fn ($state) => $state->unit_price * $state->qty);
+    public function calcTotalPrice(): float
+    {
+        // return $this->items->sum(fn ($item) => $item->unit_price * $item->qty);
+        return $this->items->sum(function ($item) {
+            return $item->qty * $item->unit_price;
+        });
     }
 
-    public function calcShipPrice(){
-        return 10000;
+    public function calcShipPrice()
+    {
+        return 10000; // Adjust this logic as needed
     }
+
+
+    public function getTotalPriceAttribute(): float
+    {
+        // return number_format(2, ',', '.'); // Format: ribuan titik, desimal koma
+        return $this->items->sum(function ($item) {
+            return $item->qty * $item->unit_price;
+        });
+    }
+    // protected static function booted()
+    // {
+    //     static::saving(function (Order $order) {
+    //                 $order->total_price = $order->calcTotalPrice();
+    //                 $order->shipping_price = $order->calcShipPrice();
+    //             });
+
+    //     // static::saving(function (Order $order) {
+    //         // $order = $this->order;
+    //         // $order->total_price = $order->calcTotalPrice();
+    //         // $order->save();
+    //         // $order->shipping_price = $order->getShippingPriceAttribute();
+    //     // });
+    // }
 
     protected $casts = [
         'status' => OrderStatus::class,
