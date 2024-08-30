@@ -3,14 +3,15 @@
 namespace App\Filament\Resources\Shop\OrderResource\Pages;
 
 use Filament\Actions;
+use Filament\Forms\Form;
+use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Section;
+use Filament\Notifications\Notification;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Notifications\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\Shop\OrderResource;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
-use Filament\Forms\Form;
-use Filament\Notifications\Actions\Action;
-use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
 
 class CreateOrder extends CreateRecord
@@ -37,8 +38,8 @@ class CreateOrder extends CreateRecord
     protected function afterCreate(): void{
         $order = $this->record;
 
-        $user = auth()->user();
-
+        $user = Auth::user();
+    
         Notification::make()
             ->title('New Order')
             ->icon('heroicon-o-shopping-bag')
@@ -48,6 +49,7 @@ class CreateOrder extends CreateRecord
                     ->url(OrderResource::getUrl('edit', ['record' => $order])),
             ])
             ->sendToDatabase($user);
+    
     }
 
     protected function getSteps(): array{
