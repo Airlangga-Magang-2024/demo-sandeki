@@ -9,7 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 
 class ListLinks extends ListRecords
 {
-    use ListRecords\Concerns\Translatable;
+    // use ListRecords\Concerns\Translatable;
 
     protected static string $resource = LinkResource::class;
 
@@ -17,7 +17,7 @@ class ListLinks extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
-            LocaleSwitcher::make()
+            // LocaleSwitcher::make()
         ];
     }
 }

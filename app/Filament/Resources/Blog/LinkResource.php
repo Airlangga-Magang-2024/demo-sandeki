@@ -32,7 +32,7 @@ use App\Filament\Resources\Blog\LinkResource\RelationManagers;
 
 class LinkResource extends Resource
 {
-    use Translatable;
+    // use Translatable;
 
     protected static ?string $model = Link::class;
 

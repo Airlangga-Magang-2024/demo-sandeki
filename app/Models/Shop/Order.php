@@ -33,24 +33,31 @@ class Order extends Model
 
     protected static function booted()
     {
-        static::created(function (Order $order) {
+        static::saving(function (Order $order) {
+            // Pastikan relasi 'items' sudah dimuat
+            $order->loadMissing('items');
+    
+            // Hitung total_price sebelum model disimpan
             // $order->total_price = $order->calcTotalPrice();
+    
+            // Hitung shipping_price jika diperlukan
             $order->shipping_price = $order->calcShipPrice();
         });
     }
+    
 
-    public function calcTotalPrice(): float
-    {
-        // return $this->items->sum(fn ($item) => $item->unit_price * $item->qty);
-        return $this->items->sum(function ($item) {
-            return $item->qty * $item->unit_price;
-        });
+    // public function calcTotalPrice(): float
+    // {
+    //     return $this->items->sum(fn ($item) => $item->qty * $item->unit_price);
+    // }
+    
+    public function calcShipPrice($item = null): int
+{
+    if ($item && $item->qty < 2) {
+        return 1000;
     }
-
-    public function calcShipPrice()
-    {
-        return 10000; // Adjust this logic as needed
-    }
+    return 2000;
+}
 
 
     public function getTotalPriceAttribute(): float

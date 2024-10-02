@@ -96,6 +96,12 @@ class OrderResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('number')
                     ->searchable()
+                    // ->formatStateUsing(function ($state, $record){
+                    //     return <<<HTML
+                    //         <div>$state</div>
+                    //         <div class='text-xs text-gray-500 mb-1'>NPWP: $record->number</div>
+                    //     HTML;
+                    // })->html()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('customer.name')
                     ->searchable()
@@ -108,14 +114,13 @@ class OrderResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('total_price')
+                    Tables\Columns\TextColumn::make('total_price')
                     ->searchable()
                     ->sortable()
-                    // ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.'))
                     ->summarize([
-                        Tables\Columns\Summarizers\Sum::make()
-                        // ->format(fn($value) => number_format($value, 2, ',', '.')),
+                        Sum::make()
                     ]),
+                
 
                 Tables\Columns\TextColumn::make('shipping_price')
                     ->label('Shipping Cost')
@@ -168,6 +173,7 @@ class OrderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

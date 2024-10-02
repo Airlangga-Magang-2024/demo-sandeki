@@ -16,7 +16,6 @@ use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
 
 class CreateOrder extends CreateRecord
 {
-
     use HasWizard;
 
     protected static string $resource = OrderResource::class;
